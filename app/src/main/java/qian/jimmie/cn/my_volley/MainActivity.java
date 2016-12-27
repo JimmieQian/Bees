@@ -1,6 +1,7 @@
 package qian.jimmie.cn.my_volley;
 
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +14,9 @@ import android.widget.ImageView;
 
 import qian.jimmie.cn.volley.volley.Bees;
 import qian.jimmie.cn.volley.volley.core.RequestQueue;
+import qian.jimmie.cn.volley.volley.exception.GreeError;
 import qian.jimmie.cn.volley.volley.exception.VolleyLog;
+import qian.jimmie.cn.volley.volley.respone.Response;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -66,12 +69,31 @@ public class MainActivity extends AppCompatActivity {
     private void beesClick() {
         int num = (int) (Math.random() * 7);
         String url = urls[num];
-        Bees.newRequest(Bees.RequestType.ImageRequest)
+        Bees.newImageRequest()
                 .setUrl(url)
-//                .shouldCache(false)
-//                .setPreIconId(R.drawable.loading)
+                .shouldCache(false)
+                .setDecodeConfig(Bitmap.Config.ARGB_4444)
+                .setScaleType(ImageView.ScaleType.CENTER_CROP)
+                .setResolution(200, 400)
+                .setPreIconId(R.drawable.loading)
                 .setErrIconId(R.drawable.err)
-                .into(view)
+                .into(view);
+
+        Bees.newStringRequest()
+                .setUrl(this.url)
+                .setMethod(Bees.Method.GET)
+                .setListener(new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e(TAG, "onResponse: " + response);
+                    }
+                })
+                .setErrListener(new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(GreeError error) {
+
+                    }
+                })
                 .build();
     }
 

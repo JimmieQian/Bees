@@ -133,15 +133,12 @@ public abstract class Request<T> implements Comparable<Request<T>> {
 
     private Response.ErrorListener mErrorListener;
 
-    private final int type;
 
-
-    public Request(int type) {
-        this(type, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+    public Request() {
+        this(DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
     }
 
-    public Request(int type, float backoff) {
-        this.type = type;
+    public Request(float backoff) {
         mMethod = Bees.Method.GET;
         // 设置默认的重传策略
         mRetryPolicy = new DefaultRetryPolicy(backoff);
@@ -161,7 +158,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
         return this;
     }
 
-    public abstract Request setListener(Response.Listener listener);
+    public abstract Request setListener(Response.Listener<T> listener);
 
     public Request setErrListener(Response.ErrorListener errListener) {
         this.mErrorListener = errListener;
@@ -215,9 +212,6 @@ public abstract class Request<T> implements Comparable<Request<T>> {
         return mTag;
     }
 
-    public int getType() {
-        return this.type;
-    }
 
     public int getTrafficStatsTag() {
         return mDefaultTrafficStatsTag;

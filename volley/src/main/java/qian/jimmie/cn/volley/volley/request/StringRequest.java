@@ -19,7 +19,6 @@ package qian.jimmie.cn.volley.volley.request;
 
 import java.io.UnsupportedEncodingException;
 
-import qian.jimmie.cn.volley.volley.Bees;
 import qian.jimmie.cn.volley.volley.cache.HttpHeaderParser;
 import qian.jimmie.cn.volley.volley.respone.NetworkResponse;
 import qian.jimmie.cn.volley.volley.respone.Response;
@@ -31,12 +30,12 @@ public class StringRequest extends Request<String> {
     private Response.Listener<String> mListener;
 
     public StringRequest() {
-        super(Bees.RequestType.StringRequest);
+        super();
     }
 
 
     @Override
-    public Request setListener(Response.Listener listener) {
+    public Request setListener(Response.Listener<String> listener) {
         this.mListener = listener;
         return this;
     }
